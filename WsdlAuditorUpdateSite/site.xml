@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/WsdlAuditor_1.1.0.jar" id="WsdlAuditor" version="1.1">
+      <category name="WsdlAuditor"/>
+   </feature>
+   <category-def name="WsdlAuditor" label="WsdlAuditor">
+      <description>
+         Wsdl Auditor
+      </description>
+   </category-def>
+</site>
