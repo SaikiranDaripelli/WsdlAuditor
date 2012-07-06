@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema id="WsdlAuditorConfiguration" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="wsdlauditorconfig">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="defaultoutputdir" type="xs:string" minOccurs="0" maxOccurs="1"/>
+				<xs:element name="outputusers" minOccurs="1" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="outputuser" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="class" type="xs:string" minOccurs="1" maxOccurs="1"/>
+										<xs:element name="outputdir" type="xs:string" minOccurs="0" maxOccurs="1" />
+										<xs:element name="param"  minOccurs="0" maxOccurs="1">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="name" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+													<xs:element name="value" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="disabled" type="xs:boolean" />
+									<xs:attribute name="name" use="required" type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="factory"  minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="executors"  minOccurs="0" maxOccurs="1">
+								<xs:complexType >
+									<xs:sequence >
+										<xs:element name="executor"  minOccurs="1" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="operator" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+													<xs:element name="class" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="dataobjects"  minOccurs="0" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="dataobject"  minOccurs="1" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="type" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+													<xs:element name="class" type="xs:string"  minOccurs="1" maxOccurs="1"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

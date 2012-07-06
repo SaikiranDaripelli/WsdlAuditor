@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: WsdlAuditor
+Bundle-SymbolicName: org.wsdl.tools.wsdlauditor.plugin;singleton:=true
+Bundle-Version: 1.0.1
+Bundle-Activator: org.wsdl.tools.wsdlauditor.Activator
+Bundle-Vendor: http://wsdlauditor.sourceforge.net/
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.core.resources
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .,
+ lib/WsdlAuditor.jar

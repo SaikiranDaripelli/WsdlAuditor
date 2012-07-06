@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="WsdlAuditor"
+      label="Wsdl Auditing Tool"
+      version="1.1"
+      provider-name="SaikiranDaripelli">
+
+   <description url="http://wsdlauditor.sourceforge.net/">
+      This tool can be used to run audit rules on a WSDL files, mainly for Naming Conventions. 
+Since this tools is devised to be a Rule Engine rather than providing a set of rules, this tool can be used to run any kind of rules on wsdl. 
+Also this tool is completely extensible, i.e. all the core classes are instantiated using factory backed by Configuration.xml which can supplied as input argument. 
+By Default Tool generates a HTML output, but you can supply any output user, which uses the tool output to generated any kind of file. 
+More Detailed Information on formats of Rule Definition file, Configuration file, and for detailed information on how to extends, configure or create a new rule operator, 
+please visit link, http://wsdlauditor.sourceforge.net/
+   </description>
+
+   
+
+   <license url="http://wsdlauditor.sourceforge.net/License.txt">
+      BSD Licence
+   </license>
+
+   <url>
+      <discovery label="Complete Infomation about Tool" url="http://wsdlauditor.sourceforge.net/"/>
+   </url>
+
+   <plugin
+         id="org.wsdl.tools.wsdlauditor.plugin"
+         download-size="80KB"
+         install-size="80KB"
+         version="1.0.1"
+         unpack="false"/>
+
+</feature>

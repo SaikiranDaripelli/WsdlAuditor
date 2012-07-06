@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdlRuleEngine>
+	<rulesets>
+		<ruleset conjunction="and" name="AnnotationRule">
+			<group conjunction="and">
+				<rule on="child" oper="!Present" name="annotation" />
+			</group>
+			<error type="error">
+				<message>Every Element should have Annotation</message>
+				<suggestion>Add Annotation to Element</suggestion>
+			</error>
+		</ruleset>
+		<ruleset conjunction="and" name="DocumentationRule">
+			<group conjunction="and">
+			    <rule on="child" oper="Present" name="annotation" />
+				<rule on="child" oper="!Present" name="annotation.documentation" />
+			</group>
+			<error type="error">
+				<message>Every Element should have Documentation</message>
+				<suggestion>Add Documentation to Element</suggestion>
+			</error>
+		</ruleset>
+		<ruleset conjunction="and" name="NameCapitalRule">
+			<group conjunction="and">
+				<rule on="attribute" oper="!Matches" name="name" value="[A-Z].*" />
+			</group>
+			<error type="error">
+				<message>name of element/value/type must start with a capital letter (unless it is a noun).</message>
+				<suggestion>Correct the name of the element</suggestion>
+			</error>
+		</ruleset>
+		<ruleset conjunction="and" name="AttributeNameCapitalRule">
+			<group conjunction="and">
+				<rule on="attribute" oper="!Matches" name="*" value="[a-z].*" />
+			</group>
+			<error type="error">
+				<message>attribute name must start with a lowercase letter.</message>
+				<suggestion>Correct attribute name</suggestion>
+			</error>
+		</ruleset>
+		<ruleset conjunction="and" name="NameAlphaNumeric">
+			<group conjunction="and">
+				<rule on="attribute" oper="!Matches" name="name"  value="[a-zA-Z0-9_]*"/>
+			</group>
+			<error type="error">
+				<message>name must be alphanumeric.</message>
+				<suggestion>name must be alphanumeric.</suggestion>
+			</error>
+		</ruleset>
+	</rulesets>
+	<rules name="NameRule">
+		<include ruleset="NameCapitalRule" />
+		<include ruleset="AttributeNameCapitalRule" />
+		<include ruleset="NameAlphaNumeric" />
+	</rules>
+	<rules name="DocRules">
+		<include ruleset="AnnotationRule" />
+		<include ruleset="DocumentationRule" />
+	</rules>
+	<rules name="AttributeRules" on="Attribute">
+		<include rules="DocRules" />
+		<include rules="NameRule" />
+	</rules>
+	<rules name="CTypeRules" on="ComplexType">
+		<include rules="DocRules" />
+		<include rules="NameRule" />
+	</rules>
+	<rules name="SimpleRules" on="SimpleType">
+		<include rules="DocRules" />
+		<include rules="NameRule" />
+	</rules>
+	<rules name="ElementRules" on="Element">
+		<include rules="DocRules" />
+		<include rules="NameRule" />
+	</rules>
+	<rules name="RequestRules" on="RequestType">
+		<include rules="DocRules" />
+		<include rules="NameRule" />
+	</rules>
+	<rules name="ResponseRules" on="ResponseType">
+		<include rules="DocRules" />
+		<include rules="NameRule" />
+	</rules>
+	<rules name="OperationRules" on="Operation">
+		<include rules="DocRules" />
+		<include rules="NameRule" />
+	</rules>
+</wsdlRuleEngine>

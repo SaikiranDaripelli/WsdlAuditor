@@ -1,0 +1,373 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta name="description" content="Xml Rule Engine Based Wsdl Auditor"/>
+<meta name="keywords" content="wsdl,audit,auditor,wsdl audit,wsdl auditor,wsdl naming conventions,naming standards,rule engine,xml based rules,rule based wsdl auditor,tool,wsdl tool,wsdl audit tool,wsdl style checker,wsdl standards,wsdl standards tool,eclipse plugin"/>
+<title>Wsdl Auditor</title>
+</head>
+<body style="background-color: #FFFFCC">
+<div style="height: 8%;float:right;width: 100%">
+	<div style="float:right;text-align: right;width: 80%"><b>Developer:</b> Saikiran Daripelli<br/>
+	<a href="mailto:saikirandaripelli@gmail.com?subject=Reg: WsdlAuditor Tool">Mail Me</a></div>
+	<div style="float:left;text-align: left;width: 20%"><b>Version:</b> 1.0</div>
+</div>
+<br/><br/>
+<div style="height: 10%;border: thin;border-style: solid;border-color: black;background-color: #FFFF99">
+	<center><h1><u>Rule Engine Based Wsdl Auditor</u></h1></center>
+</div>
+
+<div style="height: 80%;border: none;">
+<div style="width: 100%">
+	<div style="width: 19%;float: left;border: thin;border-style: solid;border-color: black"><h3>Project Info:</h3>
+		<ul>
+			<li>
+				<a href="#INTRO">Introduction</a>
+			</li>
+			<li>
+				<a href="#USAGE_CMD">Command-Line Usage</a>
+			</li>
+			<li>
+				<a href="#USAGE_ECP">Eclipse Plugin Usage</a>
+			</li>
+			<li>
+				<a href="#RULE_DEF_EXPLANATION">How to Create a Rule Definition</a>
+			</li>
+			<li>
+				<a href="SampleRuleDefinition.xml">Sample Rule Definition</a>
+			</li>
+			<li>
+				<a href="#CONFIG_EXPLAINATION">How to Extend Tool using Configuration</a>
+			</li>
+			<li>
+				<a href="SampleConfiguration.xml">Sample Config</a>
+			</li>
+			<li>
+				<a href="License.txt">Licence</a>
+			</li>
+		</ul>
+	</div>
+	<div style="width: 59%;float: left;border: thin;border-style: solid;border-color: black">
+	
+	<p>
+		<a name="INTRO"> <h4>Intro:</h4></a>
+		The tool will run the user defined audit rules on supplied WSDL(<i>though currently it supports only WSDL based on w3c schema type, it can be extended to support any XML</i>).<br/>
+		The rules should be defined in XML, in a defined format which will be explained below.<br/>
+		The tool also has a capability of comparing two wsdl's(<i>Mainly a old and new version of same WSDL</i>) and run rules on the newly added/removed elements.<br/>
+		
+		Also this tool is completely extensible, i.e. all the core classes are instantiated using factory backed by Configuration.xml which can supplied as input argument.
+	 	By Default Tool generates a HTML output, but you can supply any output user, which uses the tool output to generated any kind of file. 
+	 	<hr/>
+	 	<a name="USAGE_CMD"> <h4>Command Line Usage:</h4></a>
+	 		Download the <i>Executable Jar</i> from the Links Section on Left, from the directory where WsdlAuditor.jar is located run the following commands.<br/><br/> 
+	 		<i>
+	 			<b>java -jar WsdlAuditor.jar document=&lt;WSDL Document path/URL&gt; ruledef=&lt;Ruledefinition xml Path/URL&gt; outputdir=&lt;output directory&gt;</b><br/><br/> 
+	 			If tool needs to be used in compare mode, add a parameter <br/><b>comparedoc=&lt;old wsdl path&gt;</b> <br/><br/>
+	 			For Supplying Configuration to tool, which is used to configure new OutputUsers, Rule Operator Executors, Switching off Default Output.<br/> 
+	 			Add following argument, <br/><b>config=&lt;configuration xml path&gt;</b><br/><br/>
+	 			Look <a href="#RULE_DEF_EXPLANATION">How to Create a Rule Definition</a> for detailed information on Rule Definition Syntax.
+	 			<br/>Look <a href="#CONFIG_EXPLAINATION">How to Extend Tool using Configuration</a> for detailed information on Configuration File Syntax.
+	 		</i>
+	 	<hr/>	
+	 	<a name="USAGE_ECP"> <h4>Eclipse Plugin Usage:</h4></a>
+	 	    <h5>Installation</h5>
+	 	    1. Install directly from eclipse using the update site URL : <b>http://wsdlauditor.sourceforge.net/WsdlAuditorUpdateSite/</b><br/>
+	 	    2. Download the Update Site Zip file  <a href="http://wsdlauditor.sourceforge.net/WsdlAuditorUpdateSite.zip">WsdlAuditorUpdateSite.zip</a><br/>
+	 	    3. Download the <a href="http://sourceforge.net/projects/wsdlauditor/files/WsdlAuditor%20Eclipse%20Plugin/WsdlAuditorPlugin.zip/download">Eclipse Plugin Jar</a>.<br/><br/>
+		 		<ul>
+		 			<li>
+		 				Extract the Zip File.
+		 			</li>
+		 			<li>
+		 				Copy plugins/org.wsdl.tools.wsdlauditor.plugin_1.0.1.jar file to plugins folder in Eclipse Home.
+		 			</li>
+		 			<li>
+		 				Restart Eclipse.
+		 			</li>
+		 		</ul>
+	 		
+	 		Prefer the 1st installation method.
+	 		Now open Eclipse Preferences, you will find the "WAudit Preferences" menu, and you will find the following screen.
+	 		<br/><img src="PreferencesSS.bmp" alt="WAudit Preferences" align="middle" width="100%"/><br/>
+	 		
+	 		<ul>
+	 			<li>
+	 				<b>Output Directory:</b> Directory To which audit reports are to be stored. <br/>
+	 				Required: Mandatory, if Config file is not supplied.
+	 			</li>
+	 			<li>
+	 				<b>Rule Definition File Path:</b> Complete File path of Rule Definition file<br/>
+	 				Required: Mandatory<br/> 
+	 				Look <a href="#RULE_DEF_EXPLANATION">How to Create a Rule Definition</a> for detailed information on Rule Definition Syntax.
+	 			</li>
+	 			<li>
+	 				<b>Configuration File Path:</b> Complete File path of Configuration file<br/>
+	 				Required: Optional, Required only if tool needs to be extended for new rule operators or output users<br/> 
+	 				Look <a href="#CONFIG_EXPLAINATION">How to Extend Tool using Configuration</a> for detailed information on Configuration File Syntax.
+	 			</li>
+	 			<li>
+	 				<b>Jar Files Path:</b> "," separated any extra jars required<br/>
+	 				Required: Optional, Required only if tool needs to be extended for new rule operators or output users<br/> 
+	 			</li>
+	 			<li>
+	 				<b>Zip Output:</b> Whether Output needs to be Zipped<br/>
+	 				Required: Optional<br/> 
+	 			</li>
+	 			
+	 		</ul>
+	 		
+	 	You will find the following menu Options in eclipse after successful installation of plugin,
+	 	<ul>
+	 		<li>
+	 			<b>"WAudit" Menu</b> in Project, this will create a Audit Report for all the wsdl's in the selected project. 
+	 		</li>
+	 		<li>
+	 			<b>"WAudit" Menu</b> on right click of any folder/package, this will create a Audit Report for all the wsdl's in the selected folder. 
+	 		</li>
+	 		<li>
+	 			<b>"WAudit" Menu</b>on right click of any file, this will create a Audit Report for the selected file. 
+	 		</li>
+	 		<li>
+	 			<b>"WAudit Compare" Menu</b> on right click of any file, this will Open a File Select Dialog Box, upon selecting the old version of the file, this will run compare rules.  
+	 		</li>
+	 	</ul>
+	 	<br/><img src="RightClickMenu.bmp" alt="WAudit Menu" align="middle" width="100%"/>
+	 	<br/><br/>
+	 	<hr/>
+	 	<a name="RULE_DEF_EXPLANATION"> <h4>How to Create a Rule Definition:</h4></a>
+	 	The Rule Definition is an XML file which describes the auditing rules which are to be enforced on a wsdl.(<i>Currently XSD for this file is not Yet Created, but will be created in later point.</i>)
+	 	The basic structure of the Rule Definition file is as follows,
+	 	<br/><br/>
+	 	<div style="width:100%;font-size: x-small;border: thin;border-style: dashed;background-color: #99CCCC">
+		<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;wsdlRuleEngine&gt;
+  &lt;rulesets&gt;
+  	&lt;ruleset conjunction=&quot;and&quot; name=&quot;AnnotationRule&quot;&gt;
+	  &lt;group conjunction=&quot;and&quot;&gt;
+	 	 &lt;rule on=&quot;child&quot; oper=&quot;!Present&quot; name=&quot;annotation&quot; /&gt;
+	 	 &lt;rule on=&quot;child&quot; name=&quot;annotation&quot; ruleset=&quot;NameCapitalRule&quot;/&gt;
+	 	 
+	  &lt;/group&gt;
+	  &lt;error type=&quot;error&quot; code=&quot;10&quot;&gt;
+	 	 &lt;message&gt;Every Element should have Annotation&lt;/message&gt;
+	 	 &lt;suggestion&gt;Add Annotation to Element&lt;/suggestion&gt;
+	  &lt;/error&gt;
+  	&lt;/ruleset&gt;
+  	&lt;ruleset conjunction=&quot;and&quot; name=&quot;NameCapitalRule&quot;&gt;
+  	  &lt;group conjunction=&quot;and&quot; negate=&quot;true&quot;&gt;
+  	  	&lt;rule on=&quot;attribute&quot; oper=&quot;!Matches&quot; name=&quot;name&quot; value=&quot;[A-Z].*&quot; /&gt;
+  	  &lt;/group&gt;
+  	  &lt;error type=&quot;error&quot;&gt;
+  	  	&lt;message&gt;name of element/value/type must start with a capital letter.&lt;/message&gt;
+  	  	&lt;suggestion&gt;Correct the name of the element&lt;/suggestion&gt;
+  	  &lt;/error&gt;
+  	&lt;/ruleset&gt;
+  	&lt;ruleset conjunction=&quot;and&quot; name=&quot;NameAlphaNumeric&quot;&gt;
+  	  &lt;group conjunction=&quot;and&quot;&gt;
+  	  	&lt;rule on=&quot;attribute&quot; oper=&quot;!Matches&quot; name=&quot;name&quot; value=&quot;[a-zA-Z0-9_]*&quot;/&gt;
+  	  &lt;/group&gt;
+  	  &lt;error type=&quot;error&quot;&gt;
+  	  	&lt;message&gt;name must be alphanumeric.&lt;/message&gt;
+  	  	&lt;suggestion&gt;name must be alphanumeric.&lt;/suggestion&gt;
+  	  &lt;/error&gt;
+  	&lt;/ruleset&gt;
+  &lt;/rulesets&gt;
+  &lt;rules name=&quot;NameRule&quot;&gt;
+  	&lt;include ruleset=&quot;NameCapitalRule&quot; /&gt;
+  	&lt;include ruleset=&quot;NameAlphaNumeric&quot; /&gt;
+  &lt;/rules&gt;
+  &lt;rules name=&quot;DocRules&quot;&gt;
+  	&lt;include ruleset=&quot;AnnotationRule&quot; /&gt;
+  &lt;/rules&gt;
+  &lt;rules name=&quot;AttributeRules&quot; on=&quot;Attribute&quot; change=&quot;Added&quot;&gt;
+  	&lt;include rules=&quot;DocRules&quot; /&gt;
+  	&lt;include rules=&quot;NameRule&quot; /&gt;
+  &lt;/rules&gt;
+  &lt;rules name=&quot;SimpleRules&quot; on=&quot;SimpleType&quot;&gt;
+  	&lt;include rules=&quot;DocRules&quot; /&gt;
+  	&lt;include ruleset=&quot;NameAlphaNumeric&quot; /&gt;
+  &lt;/rules&gt;
+&lt;/wsdlRuleEngine&gt;
+		</pre> 	 
+		</div>
+		<br/>
+		Rule Definition Mainly Contains 
+		<ul>
+			<li><b>RuleSets:</b> Set of rules Grouped Together, which are successful execution returns a Error Message</li>
+		</ul>
+		<ul>
+			<li><b>Rules:</b> Rules are a Set of rule sets which are to be executed on any entity.</li>
+		</ul>
+		
+		The Following are the different supported values of all the attributes in the Rule Definition,
+		<ul>
+			<li><b>conjunction: </b> Values "and" and "or" can be used here.</li>
+			<li><b>on: </b> 
+			<ul>
+				<li><b>Rule: </b> Values <b>child,comment,attribute,value </b>can be used here, this means the rule will be executed on those elements of an Entity </li>
+				<li><b>Rules: </b> Values <b>Element, ComplexType, SimpleType, Enumeration,RequestType, ResponseType, Attribute, Service, Operation </b>can be used here, this means the rule will be executed on those Entities</li>
+			</ul>
+			</li>
+			<li><b>oper: </b>Values Supported by default are(<i>new values can be supplied through Configuration.xml</i>) <b> StartsWith, EndsWith, Contains, Equals, Empty, Method, Matches,!Matches, In, Present,Position,DirectReturn, !StartsWith, !EndsWith, !Contains, !Equals, !Empty, !In, !Present,!Position, Primitive,!Primitive,Count</b><br/>
+			Most of the values are self explanatory.
+			<br/><b>Method: </b> This will call the method from the class supplied in the value attribute, the class supplied should implement <i>org.wsdl.tools.wsdlauditor.interfaces.RuleExecutor</i> 
+			<br/><b>Matches: </b> This will execute the java RegEx, with expression supplied in the value.
+			<br/><b>In: </b> This will check if the element is present in the "," separated values supplied in value attribute.
+			<br/><b>Position: </b> This will check the Position of the element w.r.t its peers, the value can hold "last" or "first" mainly use on compare rules. In case this rule is used as rule on changed elements, this checks the position as per old doc if removed, or position as per new doc element.
+			<br/><b>DirectReturn: </b> the value attribute should hold "true" or "false" and this will just return the appropriate boolean value.
+			<br/><b>Count: </b> This will check if the count of the children or attributes is same as the value attribute.
+			<br/><b>Present: </b> Checks if the child/attribute/value/comment is present or not.
+			</li>
+			<li><b>name: </b>the value of this attribute depends on the "on" attribute, this can be name of the attribute or child.
+			<br/> if this attribute is supplied when "on" is child then the rule will be executed on child with this tag-name.
+			if supplied along with "Present" oper then will check the presence of child or attribute.
+			This can hold a value of <b>*</b>, which means on all the attributes(* is supported only in case the on is attribute).
+			</li>
+			<li><b>value: </b>the value of the value which should be supplied to the rule, ex: in case of Matches value will hold the Java Pattern which has to be applied on it.
+			</li>
+			<li><b>ruleset: </b>This is valid only in case "on" is child, this specifies the rule set which should be executed on the child element specified by name attribute. 
+			</li>
+			<li><b>negate: </b>supplied on group tag, Values <b>true,false</b> this just indicates rule engine to negate the cumulative result from the rules in that group 
+			</li>
+			<li><b>name: </b>name attribute on <b>Rules</b>, <b>RuleSet</b> should be unique in the corresponding peers.
+			</li>
+			<li><b>change: </b>Change can be </b>"Added" or "Removed"</b> which indicates that to run the following rules on Added/Removed elements only,
+			Also Change is considered only if indicated along with on attribute.
+			</li>
+			<li><b>ruleset: </b>Ruleset which needs to be included.
+			</li>
+			<li><b>rules: </b>Rules which needs to be included.
+			</li>
+		</ul>
+		<br/>
+		Download the <a href="SampleRuleDefinition.xml">SampleRuleDefinition.xml</a> for further clarity. 
+		<hr/>
+		<a name="CONFIG_EXPLAINATION"> <h4>How to Extend Tool using Configuration:</h4></a>
+		Configuration file is used to Extend the Tool and supply the new Operators and Any of the core classes,
+		Also it can be used to supply Output users, which generate different kind of output.
+		
+		The basic Structure of Configuration file is as follows,
+		 <br/><br/>
+	 	<div style="width:100%;font-size: x-small;border: thin;border-style: dashed;background-color: #99CCCC">
+		<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;wsdlauditorconfig
+xmlns=&quot;WsdlAuditorConfiguration&quot;
+xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema&quot;
+xsi:schemaLocation=&quot;WsdlAuditorConfiguration Configuration.xsd&quot;&gt;
+  &lt;defaultoutputdir&gt;c:\wsdlAuditReports&lt;/defaultoutputdir&gt;
+  &lt;outputusers&gt;
+    &lt;outputuser name=&quot;DefaultHtml&quot; disabled=&quot;false&quot;&gt;
+      &lt;class&gt;org.wsdl.tools.wsdlauditor.html.DefaultOutputUser&lt;/class&gt;
+      &lt;outputdir&gt;c:\wsdlAuditReports&lt;/outputdir&gt;
+      &lt;param&gt;
+        &lt;name&gt;param1&lt;/name&gt;
+        &lt;value&gt;value1&lt;/value&gt;
+      &lt;/param&gt;
+    &lt;/outputuser&gt;
+  &lt;/outputusers&gt;
+  &lt;factory&gt;
+    &lt;executors&gt;
+      &lt;executor&gt;
+        &lt;operator&gt;Contains&lt;/operator&gt;
+        &lt;class&gt;org.wsdl.tools.wsdlauditor.ruledefn.executors.ContainsExec&lt;/class&gt;
+      &lt;/executor&gt;
+    &lt;/executors&gt;
+    &lt;dataobjects&gt;
+      &lt;dataobject&gt;
+        &lt;type&gt;RuleEngine&lt;/type&gt;
+        &lt;class&gt;org.wsdl.tools.wsdlauditor.ruledefn.RuleEngine&lt;/class&gt;
+      &lt;/dataobject&gt;
+    &lt;/dataobjects&gt;
+  &lt;/factory&gt;
+&lt;/wsdlauditorconfig&gt;
+		</pre> 	 
+		</div>
+		<br/>
+		The main elements of the Configuration file are 
+		<ul>
+			<li><b>outputuser: </b> This configuration is supplied to generate or use the output from the WsdlAuditor, this class must implement <i><b>org.wsdl.tools.wsdlauditor.interfaces.OutputUser</b></i></li>
+			<li><b>executor: </b> This configuration is supplied to use new kind of operators in by WsdlAuditor, the operator should exatly match the value provided in the <b>oper</b> attribute on a rule, This class must implement <i><b>org.wsdl.tools.wsdlauditor.interfaces.RuleExecutor</b></i></li>
+			<li><b>dataobject: </b> This configuration is supplied to provide different implementations of different core classes in the WsdlAuditor.
+			<br/>Different Values of type and the classes it has to implement/extend are, 
+			<ul>
+				<li><b>RuleEngine: </b> The core RuleEngine class this is responsible for executing the rules on elements.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.RuleEngine</i></li>
+				<li><b>ElementInfo: </b> The ElementInfo class holds data about each element.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.ElementInfo</i></li>
+				<li><b>Error: </b> The Error class holds data about each error element in ruleset.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.Error</i></li>
+				<li><b>Rule: </b> The Rule class holds data about each Rule element.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.Rule</i></li>
+				<li><b>RuleDefinition: </b> The RuleDefinition class holds data about Complete RuleDefinition.xml file.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.RuleDefinition</i>
+				Or alternatively can implement <i>org.wsdl.tools.wsdlauditor.interfaces.RuleDefinitionInterface</i></li>
+				<li><b>RuleParam: </b> The RuleParam class holds data which is passed to RuleExecutor.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.RuleExecutorParam</i></li>
+				<li><b>RuleGroup: </b> The RuleGroup class holds data of group tag.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.RuleGroup</i></li>
+				<li><b>Rules: </b> The Rules class holds data of rules tag.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.Rules</i></li>
+				<li><b>RuleSet: </b> The RuleSet class holds data of ruleset tag.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.RuleSet</i></li>
+				<li><b>SchemaElement: </b> The SchemaElement class holds data about a wsdl element, this contains complete information about Element, its Reference counterpart etc.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.SchemaElement</i></li>
+				<li><b>SchemaError: </b> The SchemaError class holds error data created from executing Rule.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.SchemaError</i></li>
+				<li><b>WsdlSchema: </b> The WsdlSchema class holds error data of complete WSDL file.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.data.WsdlSchema</i></li>
+				<li><b>RuleDefinitionReader: </b> The RuleDefinitionReader class parses the RuleDefinition file and creates the Object structure.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.ruledefn.DefaultRuleDefinitionReader</i>
+				Or alternatively can implement <i>org.wsdl.tools.wsdlauditor.interfaces.RuleDefinitionReader</i></li>
+				<li><b>DocumentParser: </b> The DocumentParser class parses the wsdl file and creates the Object structure.<br/>
+				This class should extend <i>org.wsdl.tools.wsdlauditor.document.WsdlParser</i>
+				Or alternatively can implement <i>org.wsdl.tools.wsdlauditor.interfaces.DocumentParser</i></li>
+			</ul>
+			</li>
+		</ul>
+		<br/>
+		Download the <a href="SampleConfiguration.xml">SampleConfiguration.xml</a> for further clarity. <br/>
+		Download the <a href="Configuration.xsd">Configuration.xsd</a> for further clarity.
+		<hr/>
+	</p>
+	
+	
+
+	</div>
+	<div style="width: 19%;float: left;border: thin;border-style: solid;border-color: black"> <h3>Links:</h3>
+		<ul>
+			<li>
+				<a href="http://sourceforge.net/projects/wsdlauditor/files/WsdlAuditor.jar/download">Executable Jar</a>
+			</li>
+			<li>
+				<a href="http://sourceforge.net/projects/wsdlauditor/files/WsdlAuditor%20Executable%20Jar%20and%20Src/WsdlAuditorSrc.jar/download">Source</a>
+			</li>
+			<li>
+				<a href="WsdlAuditorUpdateSite.zip">Eclipse Plugin Update Site Zip</a><br/>
+				or<br/>
+				<a href="http://sourceforge.net/projects/wsdlauditor/files/WsdlAuditor%20Eclipse%20Plugin/WsdlAuditorUpdateSite.zip/download">Source Forge Link</a>
+			</li>
+			<li>
+				Update Site URL: http://wsdlauditor.sourceforge.net/WsdlAuditorUpdateSite/
+			</li>
+			<li>
+				<a href="http://sourceforge.net/projects/wsdlauditor/files/WsdlAuditor%20Eclipse%20Plugin/WsdlAuditorPlugin.zip/download">Eclipse Plugin Jar</a>
+			</li>
+			<li>
+				<a href="http://sourceforge.net/projects/wsdlauditor/files/WsdlAuditor%20Eclipse%20Plugin/WsdlAuditorPluginSrc.jar/download">Plugin Source</a>
+			</li>
+			<li>
+				<a href="https://sourceforge.net/projects/wsdlauditor/">Project SourceForge Home</a>
+			</li>
+			<li>
+				<a href="https://wsdlauditor.svn.sourceforge.net/svnroot/wsdlauditor/">Project Svn</a>
+			</li>
+		</ul>		
+		
+	</div>
+	
+	</div>
+</div>
+</body>
+</html>
