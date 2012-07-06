@@ -5,14 +5,14 @@ By Default Tool generates a HTML output, but you can supply any output user, whi
 
 Eclipse Plugin for using this tool with Eclipse:
 
-Update Site: http://wsdlauditor.sourceforge.net/WsdlAuditorUpdateSite/
+Update Site: http://saikirandaripelli.github.com/WsdlAuditor/WsdlAuditorUpdateSite/
 Or
 Zipped Update Site: http://wsdlauditor.sourceforge.net/WsdlAuditorUpdateSite.zip
 
 More Detailed Information on formats of Rule Definition file, Configuration file,
 and for detailed information on how to extends, configure or create a new rule operator, please visit link,
 
-http://wsdlauditor.sourceforge.net/ 
+http://saikirandaripelli.github.com/WsdlAuditor/ 
 
 
 Usage: 
